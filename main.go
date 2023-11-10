@@ -30,11 +30,7 @@ func main() {
 		}
 		y = c
 	}
-	//c, err := readStdin()
-	// if err != nil {
-	// 	fmt.Printf("unable to read stdin properly. %v, quitting\n", err)
-	// 	os.Exit(2)
-	// }
+
 	var strArr []string
 	strArr = helpers.ReadStdin()
 	if len(strArr) > 1 {
@@ -50,15 +46,6 @@ func main() {
 		fn := ""
 		kind, name := helpers.GetKindAndNameFromYaml(str)
 
-		// for k, v := range m {
-		// 	if k == "kind" {
-		// 		kind = v
-		// 	}
-		// 	if k == "name" {
-		// 		name = v
-		// 		break
-		// 	}
-		// }
 		if kind == "" || name == "" {
 			continue
 		}
