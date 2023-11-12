@@ -19,7 +19,7 @@ split-yaml -f longfile.yaml -o files
 to split longfile.yaml into multiple files, they will be named $(name)-$(kind).yaml and end up in the files directory (in this case).
 Or it can be used when piping output into it like this:
 ```bash
-kubectl get deploy,svc,configmap,ingress -o yaml | split-yaml -o files
+kubectl get deploy,svc,configmap,ingress -o yaml | split-yaml -o files -
 ```
 To split the `kind: List` content into individual files.
 
