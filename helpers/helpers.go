@@ -22,15 +22,18 @@ func ReadYamlFileToStringArr(fn string) ([]string, error) {
 func splitStr(s string) []string {
 	var strArr []string
 	strArr = strings.Split(s, "\n---\n")
+	var result []string
 	if len(strArr) == 1 {
 		if strings.Contains(s, "- apiVersion:") {
 			strArr = strings.Split(s, "- apiVersion:")
 		}
+		for _, str := range strArr {
+			result = append(result, "  apiVersion:"+str)
+		}
+	} else {
+		result = strArr
 	}
-	var result []string
-	for _, str := range strArr {
-		result = append(result, "  apiVersion:"+str)
-	}
+
 	return result
 }
 func GetYamlKindName(y string) (string, string, error) {
@@ -46,6 +49,7 @@ func GetYamlKindName(y string) (string, string, error) {
 	if r.Metadata.Name == "" {
 		return "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
+	fmt.Printf("Got kind: %v and name: %v", r.Kind, r.Metadata.Name)
 	return r.Kind, r.Metadata.Name, nil
 }
 
@@ -61,9 +65,12 @@ func GetKindAndNameFromYaml(y string) (string, string) {
 	kind := ""
 	name := ""
 
-	scanner := bufio.NewScanner(strings.NewReader(y))
-	for scanner.Scan() {
-		s := scanner.Text()
+	s := bufio.NewScanner(strings.NewReader(y))
+	for s.Scan() {
+		if s.Text() == "" {
+			break
+		}
+		s := s.Text()
 		b, a, found := strings.Cut(s, ":")
 		if found && strings.Trim(strings.ToLower(b), " ") == "kind" {
 			kind = strings.Trim(a, " ")
@@ -84,6 +91,9 @@ func ReadStdin() []string {
 	var str string
 	var l []string
 	for s.Scan() {
+		if s.Text() == "" {
+			break
+		}
 		str += "\n" + s.Text()
 
 	}

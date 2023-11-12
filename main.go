@@ -12,15 +12,28 @@ import (
 func main() {
 	fn := ""
 	o := ""
+	stdin := false
 	var y []string
 	flag.StringVar(&fn, "f", "", "filename")
 	flag.StringVar(&o, "o", "", "outputDir")
 
 	flag.Parse()
+	f := flag.Args()
+	for _, flag := range f {
+		if flag == "" {
+			stdin = true
+		}
+	}
 
 	if o == "" {
 		fmt.Printf("Output dir not supplied, specify with `-o path/to/dir`, quitting.\n")
 		os.Exit(2)
+	} else {
+		err := os.MkdirAll(o, os.ModePerm)
+		if err != nil {
+			fmt.Printf("unable to create directory, %v\n", o)
+			os.Exit(2)
+		}
 	}
 	if fn != "" {
 		c, err := helpers.ReadYamlFileToStringArr(fn)
@@ -30,10 +43,11 @@ func main() {
 		}
 		y = c
 	}
-
-	strArr := helpers.ReadStdin()
-	if len(strArr) > 1 {
-		y = strArr
+	if stdin {
+		strArr := helpers.ReadStdin()
+		if len(strArr) > 1 {
+			y = strArr
+		}
 	}
 
 	if len(y) < 2 {
@@ -57,7 +71,10 @@ func main() {
 		var filePath []string
 		filePath = append(filePath, o)
 		filePath = append(filePath, fn)
-		helpers.WriteOutput(str, strings.Join(filePath, "/"))
+		werr := helpers.WriteOutput(str, strings.Join(filePath, "/"))
+		if werr != nil {
+			fmt.Printf("failed to write file %v, error: %v\n", strings.Join(filePath, "/"), werr)
+		}
 	}
 
 }
