@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/arizon-dread/split-yaml/helpers"
+	"github.com/arizon-dread/split-kube-yamls/helpers"
 )
 
 func main() {

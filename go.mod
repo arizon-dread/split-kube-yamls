@@ -1,4 +1,4 @@
-module github.com/arizon-dread/split-yaml
+module github.com/arizon-dread/split-kube-yamls
 
 go 1.21.4
 

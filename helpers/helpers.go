@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/arizon-dread/split-yaml/models"
+	"github.com/arizon-dread/split-kube-yamls/models"
 	"gopkg.in/yaml.v2"
 )
 

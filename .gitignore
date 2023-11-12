@@ -1,4 +1,4 @@
 .vscode
 files/
 yamls.yaml
-split-yaml
+split-kube-yamls
