@@ -28,7 +28,7 @@ func splitStr(s string) []string {
 			strArr = strings.Split(s, "- apiVersion:")
 		}
 		for _, str := range strArr {
-			result = append(result, "  apiVersion:"+str)
+			result = append(result, "apiVersion:"+strings.TrimPrefix(str, "  "))
 		}
 	} else {
 		result = strArr
