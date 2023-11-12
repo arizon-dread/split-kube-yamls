@@ -31,8 +31,7 @@ func main() {
 		y = c
 	}
 
-	var strArr []string
-	strArr = helpers.ReadStdin()
+	strArr := helpers.ReadStdin()
 	if len(strArr) > 1 {
 		y = strArr
 	}
@@ -41,13 +40,18 @@ func main() {
 		fmt.Printf("no yaml supplied\n")
 		os.Exit(2)
 	}
+
 	for _, str := range y {
 
 		fn := ""
-		kind, name := helpers.GetKindAndNameFromYaml(str)
+		// kind, name := helpers.GetKindAndNameFromYaml(str)
 
-		if kind == "" || name == "" {
-			continue
+		// if kind == "" || name == "" {
+		// 	continue
+		// }
+		kind, name, err := helpers.GetYamlKindName(str)
+		if err != nil {
+			os.Exit(2)
 		}
 		fn = fmt.Sprintf("%v-%v.yaml", name, kind)
 		var filePath []string
