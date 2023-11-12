@@ -53,7 +53,7 @@ func GetYamlKindName(y string) (string, string, error) {
 	if r.Metadata.Name == "" {
 		return "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
-	fmt.Printf("Got kind: %v and name: %v", r.Kind, r.Metadata.Name)
+	//fmt.Printf("Got kind: %v and name: %v", r.Kind, r.Metadata.Name)
 	return r.Kind, r.Metadata.Name, nil
 }
 
@@ -103,7 +103,6 @@ func ReadStdin() []string {
 	}
 
 	l = splitStr(str)
-	fmt.Printf("str: %v", str)
 	return l
 }
 
