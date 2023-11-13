@@ -67,7 +67,7 @@ func main() {
 
 		kind, name, err := helpers.GetYamlKindName(str)
 		if err != nil {
-			os.Exit(2)
+			continue
 		}
 		fn = fmt.Sprintf("%v-%v.yaml", name, kind)
 		var filePath []string

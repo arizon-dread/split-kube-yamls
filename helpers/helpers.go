@@ -44,7 +44,6 @@ func GetYamlKindName(y string) (string, string, error) {
 	var r models.KubeResource
 	err := yaml.Unmarshal([]byte(y), &r)
 	if err != nil {
-		fmt.Printf("couldn't unmarshal yaml, %v\n", err)
 		return "", "", err
 	}
 	if r.Kind == "" {
