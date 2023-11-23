@@ -53,7 +53,7 @@ func GetYamlKindName(y string) (string, string, error) {
 		return "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
 	//fmt.Printf("Got kind: %v and name: %v", r.Kind, r.Metadata.Name)
-	return r.Kind, r.Metadata.Name, nil
+	return strings.ToLower(r.Kind), r.Metadata.Name, nil
 }
 
 func GetKindAndNameFromYaml(y string) (string, string) {
