@@ -41,12 +41,16 @@ func main() {
 		}
 	}
 	if fn != "" {
-		c, err := helpers.ReadYamlFileToStringArr(fn)
-		if err != nil {
-			fmt.Printf("unable to read file %v, quitting\n", fn)
-			os.Exit(2)
+		if fn == "-" {
+			stdin = true
+		} else {
+			c, err := helpers.ReadYamlFileToStringArr(fn)
+			if err != nil {
+				fmt.Printf("unable to read file %v, quitting\n", fn)
+				os.Exit(2)
+			}
+			y = c
 		}
-		y = c
 	}
 	if stdin {
 
