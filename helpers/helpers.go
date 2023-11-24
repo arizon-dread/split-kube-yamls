@@ -52,19 +52,10 @@ func GetYamlKindName(y string) (string, string, error) {
 	if r.Metadata.Name == "" {
 		return "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
-	//fmt.Printf("Got kind: %v and name: %v", r.Kind, r.Metadata.Name)
 	return strings.ToLower(r.Kind), r.Metadata.Name, nil
 }
 
 func GetKindAndNameFromYaml(y string) (string, string) {
-	// var obj interface{}
-	// err := yaml.Unmarshal([]byte(s), *obj)
-	// if err != nil {
-	// 	fmt.Printf("unable to unmarshal yaml, %v", err)
-	// 	return "", "", err
-	// }
-	// name := obj.Metadata.Name
-	// kind := obj.kind
 	kind := ""
 	name := ""
 
@@ -82,7 +73,6 @@ func GetKindAndNameFromYaml(y string) (string, string) {
 			name = strings.Trim(a, " ")
 			break
 		}
-
 	}
 
 	return kind, name
