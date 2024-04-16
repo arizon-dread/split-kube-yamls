@@ -24,3 +24,5 @@ kubectl get deploy,svc,configmap,ingress -o yaml | split-yaml -o files -
 To split the `kind: List` content into individual files.
 
 Contributing PR's are welcome! If you want to expand it to use real kubernetes objects, I'm open to contributions.
+
+**You must have LF line endings for this to work. CRLF would need to be converted to LF using git line ending normalization**
