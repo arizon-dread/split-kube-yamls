@@ -80,6 +80,8 @@ func GetKindAndNameFromYaml(y string) (string, string) {
 		}
 		if found && strings.Trim(strings.ToLower(b), " ") == "name" {
 			name = strings.Trim(a, " ")
+		}
+		if kind != "" && name != "" {
 			break
 		}
 
@@ -94,9 +96,6 @@ func ReadStdin() []string {
 	var str string
 	var l []string
 	for s.Scan() {
-		if s.Text() == "" {
-			break
-		}
 		str += "\n" + s.Text()
 
 	}
