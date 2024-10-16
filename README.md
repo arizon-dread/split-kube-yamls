@@ -2,7 +2,7 @@
 
 ## Purpose
 The purpose of this project is to be able to split a multi-yaml Kubernetes resource structure simply into individual files, splitting on either `---` or `- apiVersion:`.  
-It can be used when templating larger kubernetes manifest data and then structuring the result into individual files. For instance if you are using kustomize with overlays in a CI/CD pipeline but the pipeline commits the result into a manifest git repo, and you want the result to be structured and orderly with each resource manifest in it's individual file.
+It can be used when templating larger kubernetes manifest data and then structuring the result into individual files. For instance if you are using kustomize with overlays in a CI/CD pipeline but the pipeline commits the result into a manifest git repo, and you want the result to be structured and orderly with each resource manifest in its individual file.
 
 ## Usage
 ```bash
