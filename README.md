@@ -28,6 +28,6 @@ To split the `kind: List` content into individual files.
 **You must have LF line endings for this to work. CRLF would need to be converted to LF using git line ending normalization**
 
 ## Ending notes
-To make the tool versatile and not being subject to incompatibilities given the extendability of the kubernetes project, only the metadata part and general information about what kind each reasource is, is read using a proper struct. The spec is handled like a yaml string and should work with CRD's as well as standard kubernetes manifests, if it is proper yaml structure. If you find bugs when using the tool, please submit an issue so I can fix it.
+To make the tool versatile and not being subject to incompatibilities given the extendability of the kubernetes project, only the metadata part and general information about what kind each resource is, is read using a proper struct. The spec is handled like a yaml string and should work with CRD's as well as standard kubernetes manifests, if it is proper yaml structure. If you find bugs when using the tool, please submit an issue so I can fix it.
 
 Feel free to reach out with suggestions or issues!
