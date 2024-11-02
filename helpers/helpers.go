@@ -29,6 +29,9 @@ func splitStr(s string) []string {
 		}
 		for _, str := range strArr {
 			var each string
+			if strings.Contains(str, "kind: List") {
+				continue
+			}
 			for _, s := range strings.Split(str, "\n") {
 				each += strings.TrimPrefix(s, "  ") + "\n"
 			}
@@ -55,31 +58,31 @@ func GetYamlKindName(y string) (string, string, error) {
 	return strings.ToLower(r.Kind), r.Metadata.Name, nil
 }
 
-func GetKindAndNameFromYaml(y string) (string, string) {
-	kind := ""
-	name := ""
-
-	s := bufio.NewScanner(strings.NewReader(y))
-	for s.Scan() {
-		if s.Text() == "" {
-			break
-		}
-		s := s.Text()
-		b, a, found := strings.Cut(s, ":")
-		if found && strings.Trim(strings.ToLower(b), " ") == "kind" {
-			kind = strings.Trim(a, " ")
-		}
-		if found && strings.Trim(strings.ToLower(b), " ") == "name" {
-			name = strings.Trim(a, " ")
-		}
-		if kind != "" && name != "" {
-			break
-		}
-	}
-
-	return kind, name
-
-}
+//func GetKindAndNameFromYaml(y string) (string, string) {
+//	kind := ""
+//	name := ""
+//
+//	s := bufio.NewScanner(strings.NewReader(y))
+//	for s.Scan() {
+//		if s.Text() == "" {
+//			break
+//		}
+//		s := s.Text()
+//		b, a, found := strings.Cut(s, ":")
+//		if found && strings.Trim(strings.ToLower(b), " ") == "kind" {
+//			kind = strings.Trim(a, " ")
+//		}
+//		if found && strings.Trim(strings.ToLower(b), " ") == "name" {
+//			name = strings.Trim(a, " ")
+//		}
+//		if kind != "" && name != "" {
+//			break
+//		}
+//	}
+//
+//	return kind, name
+//
+//}
 
 func ReadStdin() []string {
 	s := bufio.NewScanner(os.Stdin)
