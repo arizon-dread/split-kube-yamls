@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_splitStr(t *testing.T) {
+func TestSplitStr(t *testing.T) {
 	type args struct {
 		s string
 	}
