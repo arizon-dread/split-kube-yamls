@@ -35,6 +35,14 @@ func splitStr(s string) []string {
 			for _, s := range strings.Split(str, "\n") {
 				each += strings.TrimPrefix(s, "  ") + "\n"
 			}
+			found := true
+			beforeStr := ""
+			for found {
+				beforeStr, found = strings.CutSuffix(each, "\n")
+				if found {
+					each = beforeStr
+				}
+			}
 			result = append(result, "apiVersion:"+each)
 		}
 	} else {
