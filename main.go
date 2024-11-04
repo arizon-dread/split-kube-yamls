@@ -29,7 +29,7 @@ func main() {
 
 	if tO == "" {
 		fmt.Printf("Output dir not supplied, specify with `-o path/to/dir`, quitting.\n")
-		os.Exit(2)
+		os.Exit(1)
 	} else {
 		//read os-specific path to os-agnostic path
 		o = filepath.ToSlash(tO)
@@ -47,7 +47,7 @@ func main() {
 			c, err := helpers.ReadYamlFileToStringArr(fn)
 			if err != nil {
 				fmt.Printf("unable to read file %v, quitting\n", fn)
-				os.Exit(2)
+				os.Exit(3)
 			}
 			y = c
 		}
@@ -62,7 +62,7 @@ func main() {
 
 	if len(y) < 2 {
 		fmt.Printf("no yaml supplied\n")
-		os.Exit(2)
+		os.Exit(4)
 	}
 
 	for _, str := range y {
@@ -84,5 +84,6 @@ func main() {
 			fmt.Printf("failed to write file %v, error: %v\n", file, werr)
 		}
 	}
+	os.Exit(0)
 
 }
