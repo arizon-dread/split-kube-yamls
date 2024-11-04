@@ -37,9 +37,6 @@ spec:
         - containerPort: 8080
           protocol: TCP
           name: api
-        env:
-        - name: POSTGRES_PASSWORD
-          value: muchs3cretw0w
         volumeMounts:
         - mountPath: /go/bin/confFile
           name: config
@@ -96,9 +93,6 @@ spec:
         - containerPort: 8080
           protocol: TCP
           name: api
-        env:
-        - name: POSTGRES_PASSWORD
-          value: muchs3cretw0w
         volumeMounts:
         - mountPath: /go/bin/confFile
           name: config
