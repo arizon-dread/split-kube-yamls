@@ -5,32 +5,6 @@ import (
 	"testing"
 )
 
-func TestReadYamlFileToStringArr(t *testing.T) {
-	type args struct {
-		fn string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    []string
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := ReadYamlFileToStringArr(tt.args.fn)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ReadYamlFileToStringArr() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ReadYamlFileToStringArr() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func Test_splitStr(t *testing.T) {
 	type args struct {
 		s string
@@ -226,6 +200,50 @@ spec:
 		t.Run(tt.name, func(t *testing.T) {
 			if got := splitStr(tt.args.s); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("splitStr() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetYamlKindName(t *testing.T) {
+	type args struct {
+		y string
+	}
+	t1_input := `apiVersion: v1
+kind: Service
+metadata:
+  name: list-service-test
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: list-deployment-test`
+	t1_expected_kind := "service"
+	t1_expected_name := "list-service-test"
+
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		want1   string
+		wantErr bool
+	}{
+		{"returns kind list and name list-service-test", args{t1_input}, t1_expected_kind, t1_expected_name, false},
+		{"returns err when no yaml supplied", args{"bogus yaml string"}, "", "", true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1, err := GetYamlKindName(tt.args.y)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetYamlKindName() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("GetYamlKindName() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("GetYamlKindName() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
