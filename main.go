@@ -14,10 +14,12 @@ func main() {
 	fn := ""
 	o := ""
 	tO := ""
+	ns := false
 	stdin := false
 	var y []string
 	flag.StringVar(&fn, "f", "", "filename")
 	flag.StringVar(&tO, "o", "", "outputDir")
+	flag.BoolVar(&ns, "n", false, "namespace")
 
 	flag.Parse()
 	f := flag.Args()
@@ -69,11 +71,15 @@ func main() {
 
 		fn := ""
 
-		kind, name, err := helpers.GetYamlKindName(str)
+		kind, name, namespace, err := helpers.GetYamlKindName(str)
 		if err != nil {
 			continue
 		}
-		fn = fmt.Sprintf("%v-%v.yaml", name, kind)
+		if len(namespace) > 0 && ns {
+			fn = fmt.Sprintf("%v-%v-%v.yaml", name, kind, namespace)
+		} else {
+			fn = fmt.Sprintf("%v-%v.yaml", name, kind)
+		}
 		var filePath []string
 		filePath = append(filePath, o)
 		filePath = append(filePath, fn)

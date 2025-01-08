@@ -207,6 +207,7 @@ func TestGetYamlKindName(t *testing.T) {
 kind: Service
 metadata:
   name: list-service-test
+  namespace: testspace
 spec:
   ports:
   - protocol: TCP
@@ -215,20 +216,22 @@ spec:
     app: list-deployment-test`
 	t1_expected_kind := "service"
 	t1_expected_name := "list-service-test"
+	t1_expected_ns := "testspace"
 
 	tests := []struct {
 		name    string
 		args    args
 		want    string
 		want1   string
+		want2   string
 		wantErr bool
 	}{
-		{"returns kind list and name list-service-test", args{t1_input}, t1_expected_kind, t1_expected_name, false},
-		{"returns err when no yaml supplied", args{"bogus yaml string"}, "", "", true},
+		{"returns kind list and name list-service-test", args{t1_input}, t1_expected_kind, t1_expected_name, t1_expected_ns, false},
+		{"returns err when no yaml supplied", args{"bogus yaml string"}, "", "", "", true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, err := GetYamlKindName(tt.args.y)
+			got, got1, got2, err := GetYamlKindName(tt.args.y)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetYamlKindName() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -238,6 +241,9 @@ spec:
 			}
 			if got1 != tt.want1 {
 				t.Errorf("GetYamlKindName() got1 = %v, want %v", got1, tt.want1)
+			}
+			if got2 != tt.want2 {
+				t.Errorf("GetYamlKindName() got2 = %v, want %v", got2, tt.want2)
 			}
 		})
 	}
