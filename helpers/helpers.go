@@ -51,19 +51,19 @@ func splitStr(s string) []string {
 
 	return result
 }
-func GetYamlKindName(y string) (string, string, error) {
+func GetYamlKindName(y string) (string, string, string, error) {
 	var r models.KubeResource
 	err := yaml.Unmarshal([]byte(y), &r)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	if r.Kind == "" {
-		return "", "", fmt.Errorf("could not find 'kind' in yaml")
+		return "", "", "", fmt.Errorf("could not find 'kind' in yaml")
 	}
 	if r.Metadata.Name == "" {
-		return "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
+		return "", "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
-	return strings.ToLower(r.Kind), r.Metadata.Name, nil
+	return strings.ToLower(r.Kind), r.Metadata.Name, r.Metadata.Namespace, nil
 }
 
 func ReadStdin() []string {
