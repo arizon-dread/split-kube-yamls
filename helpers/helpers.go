@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/arizon-dread/split-kube-yamls/models"
@@ -29,10 +30,16 @@ func splitStr(s string) []string {
 		}
 		for _, str := range strArr {
 			var each string
-			if strings.Contains(str, "kind: List") {
-				continue
-			}
+			r := regexp.MustCompile(`metadata:\n\s+resourceVersion: ""`)
+			str = stripStr(str, "metadata:\nresourceVersion: \"\"", r)
+			str = stripStr(str, "items:", nil)
+			str = stripStr(str, "kind: List", nil)
 			for _, s := range strings.Split(str, "\n") {
+
+				if strings.Contains(s, "apiVersion:") {
+					continue
+				}
+
 				each += strings.TrimPrefix(s, "  ") + "\n"
 			}
 			found := true
@@ -43,7 +50,24 @@ func splitStr(s string) []string {
 					each = beforeStr
 				}
 			}
-			result = append(result, "apiVersion:"+each)
+			for {
+				if strings.HasSuffix(each, "\n") {
+					each = strings.TrimSuffix(each, "\n")
+				} else if strings.HasPrefix(each, " ") {
+					each = strings.TrimPrefix(each, " ")
+				} else if strings.HasSuffix(each, " ") {
+					each = strings.TrimSuffix(each, " ")
+				} else {
+					break
+				}
+			}
+			if len(each) > 0 && !strings.HasPrefix(each, "apiVersion") {
+				each = "apiVersion: " + each
+			}
+			if each != "" {
+				result = append(result, each)
+			}
+
 		}
 	} else {
 		result = strArr
@@ -64,6 +88,24 @@ func GetYamlKindName(y string) (string, string, string, error) {
 		return "", "", "", fmt.Errorf("could not find 'metadata.name' in yaml")
 	}
 	return strings.ToLower(r.Kind), r.Metadata.Name, r.Metadata.Namespace, nil
+}
+func stripStr(str string, strip string, regex *regexp.Regexp) string {
+
+	found := false
+	if regex != nil {
+		found = regex.Match([]byte(str))
+		if found {
+			s := regex.ReplaceAll([]byte(str), []byte{})
+			str = string(s)
+		}
+	} else if strings.Contains(str, strip) { //if this is not prepended with indentation, it's a list outside of the actual resource yaml that we want
+		startIndex := strings.Index(str, strip)
+		prefix := str[:startIndex]
+		suffix := str[len(prefix)+len(strip):]
+		prefix = strings.TrimSuffix(prefix, " ")
+		return prefix + suffix
+	}
+	return str
 }
 
 func ReadStdin() []string {
